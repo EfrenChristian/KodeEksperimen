@@ -1,0 +1,4 @@
+type,brand,start_location,end_location,first_trip,last_trip,duration_hour,frequency_hour,price
+shuttle,T-Shuttle,Stasiun Halim,HLP,6:00,21:00,1,1,Rp -
+taxi,Blue Bird,Pandanaran,SRG,0:00,23:00,0.5,0.5,Rp -
+taxi,Blue Bird,RedBus Lounge,SUB,0:00,23:00,0.5,0.5,Rp -
