@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+public class main {
     public static void main(String[] args) {
         String datasetPath = "PAN61-dataset.csv";
         String feederPath = "feeder_routes.csv";
