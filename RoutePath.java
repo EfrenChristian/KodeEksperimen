@@ -73,13 +73,14 @@ public class RoutePath {
             System.out.printf("   [Tahap %d] %s -> %s%n", i + 1, currentLoc, leg.getDestination());
             System.out.printf("            Moda    : %s (%s)%n", leg.getBrand(), leg.getType());
             if (leg.isFeeder()) {
-                System.out.printf("            Layanan : Feeder / Penghubung (Operasional: %s - %s)%n", 
+                System.out.printf("            Layanan : Feeder / Penghubung (Operasional: %s - %s)%n",
                         leg.getFirstTrip(), leg.getLastTrip());
-                System.out.printf("            Durasi  : %s | Frekuensi: Tiap %s%n", 
+                System.out.printf("            Durasi  : %s | Frekuensi: Tiap %s%n",
                         Edge.formatHours(leg.getDurationHours()), Edge.formatHours(leg.getFrequencyHours()));
             } else {
-                System.out.printf("            Jadwal  : Berangkat %s jam %s | Tiba %s jam %s%n", 
-                        leg.getStartDate(), leg.getStartTime(), leg.getEndDate(), leg.getEndTime());
+                System.out.printf("            Jadwal  : Berangkat %s | Tiba %s%n",
+                        Edge.formatDisplay(leg.getDepartureTime()),
+                        Edge.formatDisplay(leg.getArrivalTime()));
             }
             System.out.printf("            Harga   : %s%n", leg.getPriceFormatted());
             currentLoc = leg.getDestination();

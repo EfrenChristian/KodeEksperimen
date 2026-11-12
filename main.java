@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class main {
+public class Main {
     public static void main(String[] args) {
         String datasetPath = "PAN61-dataset.csv";
         String feederPath = "feeder_routes.csv";
@@ -42,7 +42,7 @@ public class main {
                 String[] parts = line.split(",", -1);
                 String id = parts[0].trim();
                 String flag = parts.length > 1 ? parts[1].trim() : "";
-                graph.setNodeFlag(id, flag);
+                graph.setNode(id, flag);
             }
         } catch (IOException e) {
             System.err.println("Gagal membaca " + filePath + ": " + e.getMessage());
@@ -69,14 +69,18 @@ public class main {
                 if (row.length < 11)
                     continue;
 
-                String type = row[0].trim();
-                String brand = row[1].trim();
+                // Kolom: type,brand,start_location,start_date,start_time,start_timezone,
+                //        end_location,end_date,end_time,end_timezone,price
+                String type          = row[0].trim();
+                String brand         = row[1].trim();
                 String startLocation = row[2].trim();
-                String startDate = row[3].trim();
-                String startTime = row[4].trim();
-                String endLocation = row[6].trim();
-                String endDate = row[7].trim();
-                String endTime = row[8].trim();
+                String startDate     = row[3].trim();
+                String startTime     = row[4].trim();
+                int    startOffset   = parseOffset(row[5].trim());
+                String endLocation   = row[6].trim();
+                String endDate       = row[7].trim();
+                String endTime       = row[8].trim();
+                int    endOffset     = parseOffset(row[9].trim());
 
                 // Bersihkan format string mata uang dan konversi ke angka numerik
                 String priceFormatted = row[10].trim().replaceAll("^\"|\"$", "").trim();
@@ -91,13 +95,24 @@ public class main {
                 }
 
                 graph.addEdge(startLocation, endLocation, type, brand,
-                        startDate, startTime, endDate, endTime,
+                        startDate, startTime, startOffset,
+                        endDate, endTime, endOffset,
                         priceValue, priceFormatted);
             }
         } catch (IOException e) {
             System.err.println("Gagal membaca " + filePath + ": " + e.getMessage());
         }
     }
+
+    // Mengurai nilai offset zona waktu dari string (misal: "7" -> 7, "8" -> 8)
+    private static int parseOffset(String raw) {
+        try {
+            return Integer.parseInt(raw);
+        } catch (NumberFormatException e) {
+            return 7; // default ke WIB jika tidak valid
+        }
+    }
+
 
     // Membaca rute feeder berbasis frekuensi dan jam operasional dari
     // feeder_routes.csv
